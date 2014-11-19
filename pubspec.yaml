@@ -1,0 +1,11 @@
+name: 'laser'
+version: 0.0.1
+homepage: https://github.com/damoti/laser
+description: Continuous test runner for server and browser based unit tests.
+author: Lex Berezhny <lex@berezhny.com>
+dependencies:
+  unittest: any
+  yaml: any
+  path: any
+  args: any
+  console: any

@@ -1,0 +1,2 @@
+lib:
+  - "(\\w*?).dart": sample/$1_test.html
