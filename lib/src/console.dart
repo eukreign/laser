@@ -56,19 +56,20 @@ class LaserConsole {
 }
 
 String renderTree(List<Map> nodes, {int level: 0, StringBuffer buffer, bool convertToString: true}) {
+
   buffer = buffer!=null ? buffer : new StringBuffer();
 
   nodes.forEach((node) {
     buffer.writeln(' '*level + node['group']);
     (node['tests'] as List).forEach((test) {
-      buffer.writeln(' '*(level+1) + test['test']);
+      buffer.writeln("${' '*(level+1)} \u2714 ${test['test']}");
     });
   });
 
   if (convertToString) {
     return buffer.toString();
   }
-  
+
   return '';
 
 }

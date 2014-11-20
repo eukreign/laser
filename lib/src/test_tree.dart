@@ -48,17 +48,22 @@ class TestTreeModel {
 
     var remainingGroups = groupcrumbs.skip(1);
     if (remainingGroups.length == 0) {
-      currentGroup['tests'].add({'test': event['test'], 'id': event['id']});
+      currentGroup['tests'].add(event);
     } else {
       add_test(remainingGroups, event, groups: currentGroup['groups']);
     }
-    
+
   }
-  
+
   void add_result(Map event) {
-    
+    var group = root;
+    event['group'].forEach((g) {
+      group = group.firstWhere((node) => node["group"]==g);
+    });
+    Map test = group['tests'].firstWhere((test) => test["test"]==event["test"]);
+    test.addAll(event);
   }
-  
+
   void record_summary(Map event) {
     
   }

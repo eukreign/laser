@@ -12,6 +12,7 @@ import 'package:laser/server.dart';
  * 
  *  - 'mapping dir/file' shows mapping for specific files
  * 
+ *  - support comma delimited directores
  */
 
 main(List<String> arguments) {

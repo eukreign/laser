@@ -1,2 +1,3 @@
-test/sample:
-  - "(\\w*?).dart": sample/$1_test.html
+mapping:
+  test/sample:
+    - "(\\w*?).dart": sample/$1_test.html

@@ -13,10 +13,10 @@ class LaserConfiguration {
     conf = loadYaml(new File(path).readAsStringSync());
   }  
 
-  List<String> get directories => conf.keys.toList();
+  List<String> get directories => conf['mapping'].keys.toList();
 
   String test_for(String file) {
-    List<Map> matchers = conf[path.dirname(file)];
+    List<Map> matchers = conf['mapping'][path.dirname(file)];
     var fname = path.basename(file);
     for (var matcher in matchers) {
       var firstKey = matcher.keys.first;
