@@ -6,13 +6,11 @@ class LaserConsole {
 
   LaserConsole(this._conf);
 
-  Map tree = {"label": "tests", "nodes": []};
+  TestTreeModel tree;
 
   void start() {
 
-    Console.init();
-    Console.eraseDisplay(2);
-    Console.moveCursor(row: 0, column: 0);
+
     
     /*
     print("Progress Bar");
@@ -34,27 +32,43 @@ class LaserConsole {
     
   }
 
-  void draw_test_tree() {
-    Console.moveCursor(row: 1, column: 0);
-    printTree(tree);
-  }
-
-  void update_test_result(Map event) {
-    switch (event['type']) {
-      case 'test_started':
-        tree["label"] = event["group"];
-        (tree["nodes"] as List).add(event["test"]);
-        draw_test_tree();
-    }   
+  void draw_test_tree(Map event) {
+    Console.moveCursor(row: 2, column: 0);
+    stdout.write(renderTree(tree.root));
   }
 
   void run_test(Map event) {
-    var res = new ReceivePort();
-    res.listen(update_test_result);
+
+    Console.init();
+    Console.eraseDisplay(2);
+    Console.moveCursor(row: 1, column: 1);
+
+    var port = new ReceivePort();
+    var stream = port.asBroadcastStream();
+    tree = new TestTreeModel(stream);
+    tree.stream.listen(draw_test_tree);
     var test_file = path.join(Directory.current.path, event['test']);
-    Isolate.spawnUri(test_file, [], res.sendPort).then((Isolate i) {
+    Isolate.spawnUri(test_file, [], port.sendPort).then((Isolate i) {
       
     });
   }
   
+}
+
+String renderTree(List<Map> nodes, {int level: 0, StringBuffer buffer, bool convertToString: true}) {
+  buffer = buffer!=null ? buffer : new StringBuffer();
+
+  nodes.forEach((node) {
+    buffer.writeln(' '*level + node['group']);
+    (node['tests'] as List).forEach((test) {
+      buffer.writeln(' '*(level+1) + test['test']);
+    });
+  });
+
+  if (convertToString) {
+    return buffer.toString();
+  }
+  
+  return '';
+
 }

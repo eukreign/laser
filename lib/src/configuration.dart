@@ -1,6 +1,5 @@
 part of laser.server;
 
-
 class LaserConfiguration {
   Map conf;
 

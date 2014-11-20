@@ -9,7 +9,7 @@ import 'package:yaml/yaml.dart';
 import 'package:path/path.dart' as path;
 import 'package:console/console.dart';
 
-import 'src/utils.dart';
+import 'src/test_tree.dart';
 
 part 'src/configuration.dart';
 part 'src/console.dart';
