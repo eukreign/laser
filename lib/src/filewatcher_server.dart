@@ -1,8 +1,4 @@
-library laser.server.filewatcher;
-
-import 'dart:io';
-import 'dart:async';
-import 'package:laser/configuration.dart';
+part of laser.server;
 
 class FileWatcher {
 

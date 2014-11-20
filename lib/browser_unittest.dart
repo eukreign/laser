@@ -4,7 +4,7 @@ import 'dart:html';
 import 'package:unittest/unittest.dart';
 export 'package:unittest/unittest.dart';
 
-class LaserConfiguration extends SimpleConfiguration {
+class LaserTestConfiguration extends SimpleConfiguration {
 
     bool get autoStart => false;
 

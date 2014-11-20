@@ -1,27 +1,5 @@
-library laser.conf;
+part of laser.server;
 
-import 'dart:io';
-import 'package:yaml/yaml.dart';
-import 'package:path/path.dart' as path;
-
-abstract class Template {
-  
-  var _context;
-
-  noSuchMethod(Invocation invocation) {
-    if (!invocation.isGetter) return super.noSuchMethod(invocation);
-    return _context[invocation.memberName];
-  }
-
-  String template();
-
-  String evaluate(context) {
-    _context = context;
-    try {
-      return template();
-    } finally { _context = null; }
-  }
-}
 
 class LaserConfiguration {
   Map conf;

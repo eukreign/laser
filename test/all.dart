@@ -1,5 +1,3 @@
-library laser.test;
-
 import 'configuration_test.dart' as configuration_test;
 import 'server_test.dart' as server_test;
 

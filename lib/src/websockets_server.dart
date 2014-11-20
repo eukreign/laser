@@ -1,9 +1,4 @@
-library laser.server.websockets;
-
-import 'dart:io';
-import 'dart:convert';
-import 'dart:async';
-import 'package:laser/configuration.dart';
+part of laser.server;
 
 class WebSockets {
   

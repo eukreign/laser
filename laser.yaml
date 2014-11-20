@@ -1,2 +1,4 @@
 lib:
-  - "(\\w*?).dart": sample/$1_test.html
+  - "(\\w*?).dart": $1_test.dart
+lib/src:
+  - "(\\w*?).dart": $1_test.dart

@@ -5,7 +5,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:unittest/unittest.dart';
-import 'package:laser/configuration.dart';
 import 'package:laser/server.dart';
 
 class LaserServerTestConfiguration extends SimpleConfiguration {
