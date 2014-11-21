@@ -3,7 +3,7 @@ library laser.test.conf;
 import 'package:laser/console_unittest.dart';
 import 'package:laser/server.dart';
 
-void main(args, runner) { laser(runner);
+void main([args, port]) { laser(port);
 
   group('yaml config processing', () {
     test('directories list', () {

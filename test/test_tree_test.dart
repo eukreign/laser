@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:laser/console_unittest.dart';
 import 'package:laser/src/test_tree.dart';
 
-void main(args, port) { laser(port);
+void main([args, port]) { laser(port);
 
   group('test result builder', () {
     var controller = new StreamController<Map>(sync: true);
