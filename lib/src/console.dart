@@ -61,8 +61,16 @@ String renderTree(List<Map> nodes, {int level: 0, StringBuffer buffer, bool conv
 
   nodes.forEach((node) {
     buffer.writeln(' '*level + node['group']);
-    (node['tests'] as List).forEach((test) {
-      buffer.writeln("${' '*(level+1)} \u2714 ${test['test']}");
+    (node['tests'] as List).forEach((Map test) {
+      if (test.containsKey("result")) {
+        if (test["result"] == "pass") {
+          buffer.writeln("${' '*(level+1)} \u2714 ${test['test']}");
+        } else {
+          buffer.writeln("${' '*(level+1)} x ${test['test']}");
+        }
+      } else {
+        buffer.writeln("${' '*(level+1)} \u2022 ${test['test']}");
+      }
     });
   });
 
