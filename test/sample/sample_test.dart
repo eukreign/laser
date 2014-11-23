@@ -1,5 +1,5 @@
-import 'package:unittest/unittest.dart';
+import 'package:laser/unittest_html.dart';
 
-main() {
+main() { laser();
   test('addition', () => expect(1+1, equals(2)));
 }

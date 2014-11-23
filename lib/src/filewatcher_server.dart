@@ -5,12 +5,10 @@ class FileWatcher {
   LaserConfiguration _conf;
   final _watchers = new Map<Stream<FileSystemEvent>, StreamSubscription<FileSystemEvent>>();
 
-  Stream<Map> get stream => _controller.stream;
-  final _controller = new StreamController<Map>.broadcast();
+  final _controller = new StreamController<String>.broadcast();
+  Stream<String> get stream => _controller.stream;
 
-  FileWatcher(this._conf) {
-    
-  }
+  FileWatcher(this._conf);
 
   void start() {
     _conf.directories.forEach((d) {
@@ -22,8 +20,7 @@ class FileWatcher {
   }
 
   void _onEvent(FileSystemEvent event) {
-    var test = _conf.test_for(event.path);
-    _controller.add({'changed': event.path, 'test': test});
+    _controller.add(event.path);
   }
 
   void remove(Stream<FileSystemEvent> stream) {

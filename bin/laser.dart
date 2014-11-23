@@ -28,7 +28,7 @@ main(List<String> arguments) {
     conf = new LaserConfiguration.fromPath('laser.yaml');
   }
 
-  var server = new LaserServer(conf);
+  var server = new LaserTestServer(conf);
   server.start(start_console: true);
 
 }

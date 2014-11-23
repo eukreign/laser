@@ -1,6 +1,6 @@
 library laser.test.conf;
 
-import 'package:laser/console_unittest.dart';
+import 'package:laser/unittest_io.dart';
 import 'package:laser/server.dart';
 
 void main([args, port]) { laser(port);

@@ -1,22 +1,20 @@
 part of laser.server;
 
-class WebSockets {
-  
-  LaserConfiguration _conf;
-  HttpServer _server;
+
+class LaserChrome {
+
+  HttpServer _http;
   List<WebSocket> _sockets = [];
 
-  WebSockets(this._conf) {
-    
-  }
+  LaserChrome();
 
   Future start() {
-    Future<HttpServer> future = HttpServer.bind(InternetAddress.LOOPBACK_IP_V4, 2014);
-    future.then((HttpServer server) {
-      server
+    Future<HttpServer> future = HttpServer.bind(InternetAddress.LOOPBACK_IP_V4, 2009);
+    future.then((HttpServer http) {
+      http
         .transform(new WebSocketTransformer())
         .listen(add);
-      _server = server;
+      _http = http;
     });
     return future;
   }
@@ -32,6 +30,7 @@ class WebSockets {
   }
 
   Future stop() {
-    return _server.close(force: true);
+    return _http.close(force: true);
   }
+
 }

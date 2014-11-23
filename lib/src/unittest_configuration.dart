@@ -1,48 +1,51 @@
-library laser.unittest;
-
-import 'dart:io';
-import 'dart:async';
-import 'dart:isolate';
-
-import 'package:unittest/unittest.dart';
-export 'package:unittest/unittest.dart';
-
-import 'package:unittest/vm_config.dart';
+part of laser.unittest;
 
 String GROUP_SEP = '~';
 
-void laser(port) {
-  if (port != null) {
-    groupSep = GROUP_SEP;
-    unittestConfiguration = new LaserTestConfiguration(port);
-  }
-}
-
-class LaserTestConfiguration extends VMConfiguration {
+class LaserTestConfiguration extends SimpleConfiguration {
 
   ReceivePort _receivePort;
   SendPort _laser;
 
-  bool get autoStart => true;
+  bool get autoStart => false;
 
-  LaserTestConfiguration(this._laser): super();
-  
-  void onInit() {
+  LaserTestConfiguration(this._laser): super() {
     _receivePort = new ReceivePort();
+    _receivePort.first.then((Map data) {
+      this.limit = data["limit"];
+      runTests();
+    });
+    _laser.send(_receivePort.sendPort);
+    _laser.send({'test': 'configuration_test.dart'});
+  }
+
+  List<int> limit = [];
+
+  void onInit() {
+
   }
 
   void onStart() {
-    _laser.send({'type': 'start'});
+    var tests = [];
+    if (limit.isNotEmpty) {
+      testCases.forEach((TestCase testCase) {
+        if (!limit.contains(testCase.id)){
+          disableTest(testCase.id);
+        }
+      });
+    }
+    _laser.send({'type': 'start', 'tests': testCases.map((tc) => _serializeTestCase(tc)).toList()});
   }
 
   void onTestStart(TestCase testCase) {
     super.onTestStart(testCase);
-    _laser.send(_prepareEvent("test_start", testCase));
+    _laser.send(_serializeTestCase(testCase)..["type"] = "test_start");
   }
 
   void onTestResult(TestCase testCase, {String event_name: "test_result"}) {
     super.onTestResult(testCase);
-    var event = _prepareEvent(event_name, testCase);
+    var event = _serializeTestCase(testCase);
+    event['type'] = event_name;
     event['result'] = testCase.result;
     event['message'] = testCase.message;
     if (testCase.stackTrace != null) {
@@ -72,9 +75,8 @@ class LaserTestConfiguration extends VMConfiguration {
 
 }
 
-Map _prepareEvent(String type, TestCase testCase) {
+Map _serializeTestCase(TestCase testCase) {
   return {
-    'type': type,
     'id': testCase.id,
     'test': testCase.description.substring(testCase.currentGroup.length+1),
     'group': testCase.currentGroup.split(GROUP_SEP)

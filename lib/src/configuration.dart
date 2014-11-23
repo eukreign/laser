@@ -1,17 +1,18 @@
 part of laser.server;
 
+
 class LaserConfiguration {
   Map conf;
 
   String test_directory = "test";
-  
+
   LaserConfiguration(String yaml) {
     conf = loadYaml(yaml);
   }
 
   LaserConfiguration.fromPath(String path) {
     conf = loadYaml(new File(path).readAsStringSync());
-  }  
+  }
 
   List<String> get directories => conf['mapping'].keys.toList();
 
