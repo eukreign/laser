@@ -6,12 +6,11 @@ abstract class TestRunnerInstance<T> {
   void add(Map data);
 }
 
-class ChromeTestRunner {
-  Future start() {}
-}
-
 class HeadlessTestRunner {
-  
+  Future<TestRunnerInstance> run(String test) {
+    
+    return new IsolateTestInstance(test).run();
+  }
 }
 
 class IsolateTestRunner {
@@ -57,8 +56,8 @@ class IsolateTestInstance implements TestRunnerInstance {
 
 class WebSocketTestInstance implements TestRunnerInstance {
   WebSocket _websocket;
-  Stream get stream => _websocket;
-  void add(data) => _websocket.add(data);
+  Stream get stream => _websocket.map(JSON.decode);
+  void add(data) => _websocket.add(JSON.encode(data));
 
   WebSocketTestInstance(this._websocket);
 }

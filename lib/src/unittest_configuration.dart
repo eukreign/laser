@@ -2,27 +2,34 @@ part of laser.unittest;
 
 String GROUP_SEP = '~';
 
+abstract class LaserConnection {
+  Future get ready;
+  void send(data);
+  StreamSubscription listen(onData(Map data));
+}
+
 class LaserTestConfiguration extends SimpleConfiguration {
 
   ReceivePort _receivePort;
-  SendPort _laser;
+
+  LaserConnection _laser;
 
   bool get autoStart => false;
 
   LaserTestConfiguration(this._laser): super() {
-    _receivePort = new ReceivePort();
-    _receivePort.first.then((Map data) {
-      this.limit = data["limit"];
-      runTests();
+    _laser.ready.then((_) {
+      _laser.send({'test': 'configuration_test.dart'});
+      _laser.listen((Map data) {
+        this.limit = data["limit"];
+        runTests();
+      });
     });
-    _laser.send(_receivePort.sendPort);
-    _laser.send({'test': 'configuration_test.dart'});
   }
 
   List<int> limit = [];
 
   void onInit() {
-
+    _receivePort = new ReceivePort();
   }
 
   void onStart() {

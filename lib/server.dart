@@ -50,7 +50,7 @@ class LaserTestServer {
 
     // WebSocket Test Connections
     incoming = new IncomingWebTests();
-    incoming.stream.listen((runner) {
+    incoming.stream.listen((TestRunnerInstance runner) {
       test_connected(runner);
     });
 
@@ -71,13 +71,13 @@ class LaserTestServer {
     var runner;
 
     if (test.endsWith("html")) {
-      runner = chrome;
+      runner = headless_runner;
     } else {
       runner = isolate_runner;
     }
 
-    runner.run(test).then((runner) {
-      test_connected(runner);
+    runner.run(test).then((runner_instance) {
+      test_connected(runner_instance);
     });
 
   }
