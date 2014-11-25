@@ -13,6 +13,15 @@ import 'package:laser/server.dart';
  *  - 'mapping dir/file' shows mapping for specific files
  * 
  *  - support comma delimited directores
+ * 
+ *  - support for default mapping, this would allow people to just list directories:
+ * 
+ *   mapping:
+ *    - lib
+ *    - lib/src
+ *    - web
+ * 
+ *   And get the default: - "(\\w*?).dart": $1_test.dart  mapping.
  */
 
 main(List<String> arguments) {
