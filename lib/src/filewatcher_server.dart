@@ -1,5 +1,6 @@
 part of laser.server;
 
+
 class FileWatcher {
 
   LaserConfiguration _conf;

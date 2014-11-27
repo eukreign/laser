@@ -18,6 +18,14 @@ part 'src/test_session.dart';
 part 'src/websockets.dart';
 
 
+const int CHROMEUI_PORT = 2009;
+const int WEBSOCKET_PORT = 2005;
+
+
+abstract class LaserUI {
+  void message(String msg);
+}
+
 class LaserTestServer {
 
   final test_sessions = new Map<String, TestSession>();
@@ -26,6 +34,7 @@ class LaserTestServer {
 
   LaserConsole console;
   LaserChrome chrome;
+  List uis;
 
   IsolateTestRunner isolate_runner;
   HeadlessTestRunner headless_runner;
@@ -39,7 +48,12 @@ class LaserTestServer {
 
     // UIs
     chrome = new LaserChrome(); // also a test runner
-    console = new LaserConsole(this);
+    uis = [chrome];
+    var term = new Terminal();
+    if (start_console && term.supported()) {
+      console = new LaserConsole(term);
+      uis.add(console);
+    }
 
     if (start_console)
       console.start();
@@ -59,7 +73,13 @@ class LaserTestServer {
     fileWatcher.start();
     fileWatcher.stream.listen((String path) {
       var test = conf.test_for(path);
-      start_test(test);
+      new File(test).exists().then((exists) {
+          if (exists) {
+            start_test(test);
+          } else {
+            uis.forEach((ui) => ui.message("No tests found for: ${path}"));
+          }
+      });
     });
 
     return Future.wait([chrome.start(), incoming.start()]);

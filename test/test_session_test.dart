@@ -1,4 +1,4 @@
-library laser.test.test_tree;
+library laser.test.test_session;
 
 import 'dart:async';
 import 'package:laser/unittest_io.dart';

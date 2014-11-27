@@ -1,5 +1,6 @@
 part of laser.unittest;
 
+
 String GROUP_SEP = '~';
 
 abstract class LaserConnection {

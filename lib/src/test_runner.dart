@@ -71,7 +71,7 @@ class IncomingWebTests {
   IncomingWebTests();
 
   Future start() {
-    Future<HttpServer> future = HttpServer.bind(InternetAddress.LOOPBACK_IP_V4, 2005);
+    Future<HttpServer> future = HttpServer.bind(InternetAddress.LOOPBACK_IP_V4, WEBSOCKET_PORT);
     future.then((HttpServer http) {
       http
         .transform(new WebSocketTransformer())

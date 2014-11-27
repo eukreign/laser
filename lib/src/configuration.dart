@@ -1,7 +1,13 @@
 part of laser.server;
 
 
+class FileMapping {
+  
+}
+
+
 class LaserConfiguration {
+
   Map conf;
 
   String test_directory = "test";

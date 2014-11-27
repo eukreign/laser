@@ -1,35 +1,36 @@
 part of laser.server;
 
 
-class LaserConsole {
-
-  LaserTestServer _server;
-  LaserConfiguration _conf;
-  LaserConsole(this._server) {
-    _conf = _server.conf;
-  }
+class LaserConsole implements LaserUI {
 
   TestSession _session;
+  Terminal _term;
+
+  LaserConsole(this._term);
+
+  void message(String msg) {
+    _term.eraseDisplay(2);
+    _term.moveCursor(row: 2, column: 2);
+    _term.write(msg);
+  }
+
   void set session(TestSession session) {
-    Console.init();
-    Console.eraseDisplay(2);
-    //Console.moveCursor(row: 1, column: 1);
     _session = session;
     _session.stream.listen(draw_test_tree);
   }
 
   void start() {
-    var i=0;
+    var i = 0;
     new Timer.periodic(new Duration(seconds: 1), (Timer timer) {
-      Console.moveCursor(row: stdout.terminalLines, column: 30);
-      Console.write((++i).toString());
-       
+      _term.moveCursor(row: _term.rows, column: _term.columns-5);
+      _term.write((++i).toString());
     });
   }
 
   void draw_test_tree(Map event) {
-    Console.moveCursor(row: 2, column: 0);
-    stdout.write(renderTree(_session.model));
+    _term.eraseDisplay(2);
+    _term.moveCursor(row: 2, column: 0);
+    _term.write(renderTree(_session.model));
   }
 
 }

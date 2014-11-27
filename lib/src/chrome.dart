@@ -8,8 +8,12 @@ class LaserChrome {
 
   LaserChrome();
 
+  void message(String msg) {
+
+  }
+  
   Future start() {
-    Future<HttpServer> future = HttpServer.bind(InternetAddress.LOOPBACK_IP_V4, 2009);
+    Future<HttpServer> future = HttpServer.bind(InternetAddress.LOOPBACK_IP_V4, CHROMEUI_PORT);
     future.then((HttpServer http) {
       http
         .transform(new WebSocketTransformer())

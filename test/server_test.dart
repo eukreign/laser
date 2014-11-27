@@ -8,28 +8,28 @@ import 'package:unittest/unittest.dart';
 import 'package:laser/server.dart';
 
 class LaserServerTestConfiguration extends SimpleConfiguration {
-  LaserServer _server;
+  LaserTestServer _server;
   LaserServerTestConfiguration(this._server);
   void onDone(bool success) {
     super.onDone(success);
     _server.stop();
-    exit(0);
   }
 }
 
 main() {
   var conf = new LaserConfiguration.fromPath('test/test_config.yaml');
-  var server = new LaserServer(conf);
+  var server = new LaserTestServer(conf);
   unittestConfiguration = new LaserServerTestConfiguration(server);
 
-  server.start().then((_) {
+  Future ready = server.start();
 
-    test('test file changed event', () {
-      var response = new Completer<Map>();
-      response.future.then(expectAsync((e) =>
-        expect(e, containsValue('test/sample/sample_test.html'))
-      ));
-      WebSocket.connect("ws://localhost:2014").then((ws) {
+  test('test file changed event', () {
+    var response = new Completer<Map>();
+    response.future.then(expectAsync((e) =>
+      expect(e, containsValue('test/sample/sample_test.html'))
+    ));
+    ready.then((_) {
+      WebSocket.connect("ws://localhost:${WEBSOCKET_PORT}").then((ws) {
         ws.listen((msg) {
           response.complete(JSON.decode(msg));
           ws.close();
@@ -37,6 +37,7 @@ main() {
         new File('test/sample/sample.dart').writeAsString("");
       });
     });
-
   });
+
+
 }

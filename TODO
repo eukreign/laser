@@ -1,0 +1,56 @@
+0.1:
+
+ x laser.yaml support only
+ x io only tests
+ - console: display test results, scrolling
+
+0.2:
+
+ - html tests
+ - laser.chrome
+ - show error if laser not started in root directory (look for pubspec.yml and test/ directories)
+
+0.3:
+
+ - watch tests themselves
+ - limit to specific test
+ - generate all.dart test runner that calls main(), allow user to save it (for CI use)
+     when test/all.dart exists, use it, otherwise generate one in /tmp
+
+0.4:
+
+ - multiples test files per source file
+
+ - list files to be watched in test comment, simpler to configure, laser.yaml not required in that case
+   when laser is started it will loop over all .dart/.html files in test/ looking for watch requests
+
+   // laser:
+   //   - lib/my_code.dart
+
+ - support for default mapping, this would allow people to just list directories:
+
+   mapping:
+     - lib
+     - lib/src
+     - web
+
+   default mapping: - "(\\w*?).dart": $1_test.dart
+
+0.5:
+
+ - 'mapping' command that lists:
+     1. files mapped to existant test files
+     2. files mapped to non-existant test files
+     3. .dart files found in watched directories but not mapped
+     4. test files without associated input/src/trigger file
+
+ - 'mapping dir/file' shows mapping for specific files
+
+
+ - user documentation
+
+ - document source
+ 
+ - windows suggestions (eclipse TCF Terminals works in windows, other solutions)
+
+ - public release
