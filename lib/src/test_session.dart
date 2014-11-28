@@ -3,11 +3,17 @@ part of laser.server;
 
 class TestSession {
 
-  String _test_file;
+  String _test_file = "";
   List<int> _limit = [];
 
-  TestRunModel _test_model;
+  TestRunModel _test_model = new TestRunModel();
   List<Map> get model => _test_model.root;
+  String get tests => _test_model.testCount.toString();
+  String get passed => _test_model.passedCount.toString();
+  String get failed => _test_model.failedCount.toString();
+  String get errors => _test_model.errorCount.toString();
+  String get skipped => _test_model.skippedCount.toString();
+  String get testFile => _test_file;
 
   TestRunnerInstance _runner;
 
@@ -51,6 +57,12 @@ class TestSession {
 class TestRunModel {
   
   List<Map> root = [];
+  
+  int testCount = 0;
+  int passedCount = 0;
+  int failedCount = 0;
+  int errorCount = 0;
+  int skippedCount = 0;
 
   void add_test(Iterable<String> groupcrumbs, Map event, {List<Map> groups: null}) {
 
@@ -71,6 +83,7 @@ class TestRunModel {
       event.remove('type');
       event.remove('group');
       currentGroup['tests'].add(event);
+      testCount += 1;
     } else {
       add_test(remainingGroups, event, groups: currentGroup['groups']);
     }
@@ -82,11 +95,22 @@ class TestRunModel {
     event['group'].forEach((g) {
       group = group.firstWhere((node) => node["group"]==g);
     });
-    Map test = group['tests'].firstWhere((test) => test["test"]==event["test"]);
+    Map test = (group['tests'] as List).firstWhere((test) => test["test"]==event["test"]);
     test.addAll(event);
+    switch (test['result']) {
+      case PASS:
+        passedCount += 1;
+        break;
+      case FAIL:
+        failedCount += 1;
+        break;
+      case ERROR:
+        errorCount += 1;
+        break;
+    }
   }
 
   void record_summary(Map event) {
-    
   }
+
 }

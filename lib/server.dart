@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:isolate';
 
+import 'package:unittest/unittest.dart';
 import 'package:yaml/yaml.dart';
 import 'package:path/path.dart' as path;
 import 'package:console/console.dart';
@@ -49,9 +50,8 @@ class LaserTestServer {
     // UIs
     chrome = new LaserChrome(); // also a test runner
     uis = [chrome];
-    var term = new Terminal();
-    if (start_console && term.supported()) {
-      console = new LaserConsole(term);
+    if (start_console && Terminal.supported()) {
+      console = new LaserConsole();
       uis.add(console);
     }
 
@@ -97,16 +97,16 @@ class LaserTestServer {
     }
 
     runner.run(test).then((runner_instance) {
-      test_connected(runner_instance);
+      test_connected(runner_instance, test:test);
     });
 
   }
 
-  void test_connected(TestRunnerInstance runner) {
+  void test_connected(TestRunnerInstance runner, {String test}) {
 
     StreamSubscription subscription = runner.stream.listen(null);
     subscription.onData((Map details) {
-      var test = details['test'];
+      test = test!=null ? test : details['test'];
       var session = test_sessions.putIfAbsent(test, ()=>new TestSession(test));
       console.session = session;
       subscription.onData((Map data) => session.onData(data));

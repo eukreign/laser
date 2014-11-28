@@ -2,9 +2,8 @@ part of laser.server;
 
 
 class FileMapping {
-  
-}
 
+}
 
 class LaserConfiguration {
 

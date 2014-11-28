@@ -19,9 +19,7 @@ class IsolateConnection implements LaserConnection {
   }
 
   Future get ready {
-    var completer = new Completer();
-    completer.complete();
-    return completer.future;
+    return new Future.value();
   }
 
   void send(message) {
