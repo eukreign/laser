@@ -18,7 +18,7 @@ class TestSession {
   TestRunnerInstance _runner;
 
   final _controller = new StreamController<Map>.broadcast();
-  Stream<Map> get stream => _controller.stream;
+  Stream<Map> get changes => _controller.stream;
 
   TestSession(this._test_file);
 

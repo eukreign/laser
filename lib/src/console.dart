@@ -15,7 +15,7 @@ class LaserConsole implements LaserUI {
 
   void set session(TestSession session) {
     _session = session;
-    _session.stream.listen(draw_test_tree);
+    _session.changes.listen(draw_test_tree);
   }
 
   void start() {
@@ -28,15 +28,26 @@ class LaserConsole implements LaserUI {
     });
     stdin.echoMode = false;
     stdin.lineMode = false;
-    stdin.listen((List<int> key) {
+    stdin.transform(ASCII.decoder).listen((String key) {
       Terminal.moveCursor(row: 1, column: 1);
-      Terminal.write(key);
       switch (key) {
-        case '^[[A':
+        case KeyCode.SPACE:
+          Terminal.write('space');
+          break;
+        case KeyCode.UP:
           Terminal.write('up');
           break;
-        case '^[[B':
+        case KeyCode.PAGE_UP:
+          Terminal.write('page up');
+          break;
+        case KeyCode.DOWN:
           Terminal.write('down');
+          break;
+        case KeyCode.PAGE_DOWN:
+          Terminal.write('page down');
+          break;
+        case KeyCode.F1:
+          Terminal.write('f1 pressed');
           break;
       }
     });

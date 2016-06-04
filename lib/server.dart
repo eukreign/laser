@@ -9,6 +9,7 @@ import 'package:unittest/unittest.dart';
 import 'package:yaml/yaml.dart';
 import 'package:path/path.dart' as path;
 import 'package:console/console.dart';
+import 'package:console_ui/console_ui.dart';
 
 part 'src/configuration.dart';
 part 'src/console.dart';

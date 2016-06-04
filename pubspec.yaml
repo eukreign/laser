@@ -1,7 +1,8 @@
 name: 'laser'
 version: 0.0.5
 homepage: https://github.com/damoti/laser
-description: Continuous test runner for server and browser based unit tests.
+description: >
+  Continuous test runner for server and browser based unit tests.
 author: Lex Berezhny <lex@damoti.com>
 dependencies:
   unittest: any
@@ -9,6 +10,9 @@ dependencies:
   path: any
   args: any
   console: any
+  console_ui: any
 dependency_overrides:
   console:
     path: ../console.dart/
+  console_ui:
+    path: ../console_ui/
